@@ -9,6 +9,9 @@ class LoginApp extends StatefulWidget {
 }
 
 class _LoginAppState extends State<LoginApp> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
   String? _selectedDocumentType;
   final List<String> _garden_name = [
     'Garden A',
@@ -48,27 +51,57 @@ class _LoginAppState extends State<LoginApp> {
             const SizedBox(height: 16.0),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Username'),
+              controller: _usernameController,
             ),
             const SizedBox(height: 16.0),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Password'),
+              controller: _passwordController,
               obscureText: true,
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
+                String username = _usernameController.text;
+                String password = _passwordController.text;
+
+                if (username == 'admin' && password == 'admin') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const DocumentUploadForm()),
+                  );
+                } else {
+                  showAlertDialog(context);
+                  setState(() {
+                    _errorMessage = 'Invalid username or password';
+                  });
+                }
                 // Perform signup logic here
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const DocumentUploadForm()),
-                );
               },
-              child: const Text('Sign Up'),
+              child: const Text('Login'),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+
+    // set up the AlertDialog
+    AlertDialog alert = const AlertDialog(
+      title: Text("ERROR"),
+      content: Text("INVALID CREDENTIALS"),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
