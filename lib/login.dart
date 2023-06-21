@@ -11,7 +11,6 @@ class LoginApp extends StatefulWidget {
 class _LoginAppState extends State<LoginApp> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String _errorMessage = '';
   String? _selectedDocumentType;
   final List<String> _garden_name = [
     'Garden A',
@@ -74,7 +73,6 @@ class _LoginAppState extends State<LoginApp> {
                 } else {
                   showAlertDialog(context);
                   setState(() {
-                    _errorMessage = 'Invalid username or password';
                   });
                 }
                 // Perform signup logic here
